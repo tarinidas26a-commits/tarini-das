@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarini Das — People Analytics & HR Strategy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white: #ffffff; --bg: #f8f7f4; --ink: #0a0a1a;
+      --navy: #0f2055; --navy-mid: #1a3a7a; --navy-light: #e8edf8;
+      --gold: #c9a84c; --gold-light: #f5edda; --gold-dark: #a07828;
+      --body: #3a3a5a; --muted: #8888aa; --border: #e2e0d8;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--white); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: var(--navy); border-radius: 2px; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Cormorant', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--body); font-size: 0.8rem; font-weight: 400; letter-spacing: 0.05em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta { background: var(--navy) !important; color: #fff !important; padding: 0.45rem 1.2rem !important; border-radius: 100px; font-weight: 500 !important; }
+    .nav-resume { background: var(--gold) !important; color: #fff !important; padding: 0.45rem 1.2rem !important; border-radius: 100px; font-weight: 500 !important; }
+
+    .hero { min-height: 100vh; padding: 8rem 5% 4rem; display: grid; grid-template-columns: 1fr 380px; gap: 4rem; align-items: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(15,32,85,0.05) 0%, transparent 65%); pointer-events: none; }
+    .hero-chip { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold-light); color: var(--gold-dark); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.6s 0.1s forwards; }
+    .hero-chip::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+    .hero-name { font-family: 'Cormorant', serif; font-size: clamp(4.5rem, 10vw, 9rem); font-weight: 700; line-height: 0.88; color: var(--navy); letter-spacing: -0.02em; opacity: 0; animation: fadeUp 0.7s 0.2s forwards; }
+    .hero-name em { font-style: italic; font-weight: 300; color: var(--gold); display: block; }
+    .hero-tagline { margin-top: 2rem; font-family: 'Cormorant', serif; font-size: clamp(1.2rem, 2.2vw, 1.55rem); font-weight: 400; font-style: italic; color: var(--body); max-width: 540px; line-height: 1.5; opacity: 0; animation: fadeUp 0.7s 0.35s forwards; }
+    .hero-tags { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.6rem; opacity: 0; animation: fadeUp 0.7s 0.45s forwards; }
+    .hero-tag { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.28rem 0.8rem; border: 1.5px solid var(--navy); color: var(--navy); border-radius: 100px; }
+    .hero-bio { margin-top: 1.8rem; font-size: 0.9rem; color: var(--body); max-width: 540px; line-height: 1.85; opacity: 0; animation: fadeUp 0.7s 0.55s forwards; }
+    .hero-btns { margin-top: 2.2rem; display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s 0.65s forwards; }
+    .btn { display: inline-block; text-decoration: none; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; padding: 0.75rem 1.8rem; border-radius: 8px; transition: all 0.25s; cursor: pointer; border: none; }
+    .btn-navy { background: var(--navy); color: #fff; }
+    .btn-navy:hover { background: var(--navy-mid); }
+    .btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+    .btn-outline:hover { background: var(--navy); color: #fff; }
+    .btn-gold { background: var(--gold); color: #fff; }
+    .btn-gold:hover { background: var(--gold-dark); }
+
+    .hero-right { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
+    .hero-tile { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem 1.2rem; box-shadow: 0 4px 20px rgba(15,32,85,0.06); transition: transform 0.2s; }
+    .hero-tile:hover { transform: translateY(-3px); }
+    .hero-tile.dark { background: var(--navy); }
+    .hero-tile.gold-tile { background: var(--gold); }
+    .tile-num { font-family: 'Cormorant', serif; font-size: 2.6rem; font-weight: 700; color: var(--navy); line-height: 1; }
+    .hero-tile.dark .tile-num { color: var(--gold); }
+    .hero-tile.gold-tile .tile-num { color: #fff; }
+    .tile-label { font-size: 0.67rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.4; }
+    .hero-tile.dark .tile-label { color: rgba(255,255,255,0.55); }
+    .hero-tile.gold-tile .tile-label { color: rgba(255,255,255,0.85); }
+
+    section { padding: 5.5rem 5%; }
+    .sec-chip { display: inline-block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-dark); background: var(--gold-light); padding: 0.28rem 0.85rem; border-radius: 100px; margin-bottom: 0.8rem; }
+    .sec-title { font-family: 'Cormorant', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 600; color: var(--navy); line-height: 1.15; }
+    .sec-sub { margin-top: 0.5rem; font-size: 0.85rem; color: var(--body); max-width: 520px; }
+    .sec-header { margin-bottom: 3rem; }
+
+    #achievements { background: var(--navy); }
+    #achievements .sec-chip { background: rgba(201,168,76,0.2); color: var(--gold); }
+    #achievements .sec-title { color: #fff; }
+    #achievements .sec-sub { color: rgba(255,255,255,0.5); }
+    .ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; }
+    .ach-tile { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.8rem 1.6rem; transition: background 0.2s, transform 0.2s; }
+    .ach-tile:hover { background: rgba(255,255,255,0.09); transform: translateY(-3px); }
+    .ach-tile.gold-ach { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.3); }
+    .ach-num { font-family: 'Cormorant', serif; font-size: 3.5rem; font-weight: 700; color: var(--gold); line-height: 1; }
+    .ach-line { font-size: 0.8rem; color: rgba(255,255,255,0.65); margin-top: 0.5rem; line-height: 1.55; }
+
+    #story { background: var(--bg); }
+    .story-title-large { font-family: 'Cormorant', serif; font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 400; font-style: italic; color: var(--navy); line-height: 1.1; margin-bottom: 0.6rem; }
+    .story-caption { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 3rem; }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .story-text p { font-size: 0.92rem; color: var(--body); line-height: 1.95; margin-bottom: 1.3rem; }
+    .story-text strong { color: var(--navy); font-weight: 600; }
+    .story-right { display: flex; flex-direction: column; gap: 1rem; }
+    .usp-tile { padding: 1.2rem 1.4rem; border-radius: 12px; border-left: 3px solid var(--gold); background: var(--white); box-shadow: 0 2px 12px rgba(15,32,85,0.05); }
+    .usp-tile.navy-tile { border-left-color: var(--navy); }
+    .usp-tile h4 { font-family: 'Cormorant', serif; font-size: 1.05rem; font-weight: 600; color: var(--navy); margin-bottom: 0.2rem; }
+    .usp-tile p { font-size: 0.8rem; color: var(--body); line-height: 1.55; }
+    .personality-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .pers-tile { background: var(--navy); border-radius: 12px; padding: 1.1rem 1rem; text-align: center; }
+    .pers-emoji { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .pers-tile p { font-size: 0.75rem; color: rgba(255,255,255,0.78); line-height: 1.5; }
+
+    #experience { background: var(--white); }
+    .exp-list { display: flex; flex-direction: column; gap: 1rem; }
+    .exp-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--white); transition: box-shadow 0.2s; }
+    .exp-card:hover { box-shadow: 0 6px 24px rgba(15,32,85,0.07); }
+    .exp-header { display: flex; justify-content: space-between; align-items: center; padding: 1.8rem 2rem; cursor: pointer; user-select: none; gap: 1rem; flex-wrap: wrap; }
+    .exp-header:hover { background: var(--bg); }
+    .exp-role { font-family: 'Cormorant', serif; font-size: 1.7rem; font-weight: 600; color: var(--navy); line-height: 1.1; }
+    .exp-meta { font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; }
+    .exp-right { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+    .exp-period { font-size: 0.72rem; font-weight: 500; color: var(--muted); background: var(--navy-light); padding: 0.25rem 0.75rem; border-radius: 100px; white-space: nowrap; }
+    .exp-toggle { font-size: 1.6rem; color: var(--gold); transition: transform 0.3s; font-weight: 300; line-height: 1; }
+    .exp-card.open .exp-toggle { transform: rotate(45deg); }
+    .exp-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; padding: 0 2rem; }
+    .exp-card.open .exp-body { max-height: 700px; padding: 0 2rem 1.8rem; }
+    .exp-type { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 1rem; }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .exp-bullets li { font-size: 0.85rem; color: var(--body); padding-left: 1.2rem; position: relative; line-height: 1.7; }
+    .exp-bullets li::before { content: ''; position: absolute; left: 0; top: 0.65rem; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+
+    #projects { background: var(--bg); }
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+    .proj-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 2rem; position: relative; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: transform 0.25s, box-shadow 0.25s; }
+    .proj-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--navy), var(--gold)); }
+    .proj-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(15,32,85,0.1); }
+    .proj-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .proj-type { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 0.5rem; }
+    .proj-card h3 { font-family: 'Cormorant', serif; font-size: 1.3rem; font-weight: 600; color: var(--navy); line-height: 1.25; margin-bottom: 0.7rem; }
+    .proj-card p { font-size: 0.82rem; color: var(--body); line-height: 1.7; margin-bottom: 1.2rem; flex: 1; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.4rem; }
+    .ptag { font-size: 0.62rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 100px; background: var(--navy-light); color: var(--navy-mid); border: 1px solid rgba(15,32,85,0.12); }
+    .proj-btn { display: block; font-size: 0.78rem; font-weight: 600; color: #fff; background: var(--navy); padding: 0.6rem 1.2rem; border-radius: 6px; text-align: center; transition: background 0.2s; border: none; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; }
+    .proj-btn:hover { background: var(--navy-mid); }
+    .proj-badge { position: absolute; top: 1rem; right: 1rem; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 100px; background: #e6f4ea; color: #1a7a3a; }
+
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,10,26,0.75); backdrop-filter: blur(4px); z-index: 500; overflow-y: auto; padding: 2rem 1rem; }
+    .modal-overlay.active { display: flex; align-items: flex-start; justify-content: center; }
+    .modal { background: var(--white); border-radius: 16px; max-width: 740px; width: 100%; padding: 2.8rem; position: relative; animation: modalIn 0.3s ease; margin: auto; }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-close { position: absolute; top: 1.2rem; right: 1.4rem; font-size: 1.8rem; color: var(--muted); cursor: pointer; background: none; border: none; line-height: 1; transition: color 0.2s; }
+    .modal-close:hover { color: var(--navy); }
+    .modal-type { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 0.6rem; }
+    .modal-title { font-family: 'Cormorant', serif; font-size: 2rem; font-weight: 600; color: var(--navy); line-height: 1.2; margin-bottom: 1.8rem; padding-right: 2rem; }
+    .modal-section { margin-bottom: 1.4rem; }
+    .modal-section-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 0.5rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--gold-light); }
+    .modal-section p { font-size: 0.875rem; color: var(--body); line-height: 1.85; }
+    .modal-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .modal-tag { font-size: 0.65rem; font-weight: 500; padding: 0.22rem 0.65rem; border-radius: 100px; background: var(--navy-light); color: var(--navy-mid); border: 1px solid rgba(15,32,85,0.12); }
+    .modal-reflection { background: var(--bg); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 1rem 1.2rem; font-size: 0.86rem; color: var(--body); line-height: 1.8; font-style: italic; }
+    .modal-actions { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .modal-link { display: inline-block; text-decoration: none; font-size: 0.82rem; font-weight: 600; padding: 0.7rem 1.6rem; border-radius: 8px; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+    .modal-link.primary { background: var(--navy); color: #fff; }
+    .modal-link.primary:hover { background: var(--navy-mid); }
+    .modal-link.secondary { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+    .modal-link.secondary:hover { background: var(--navy); color: #fff; }
+
+    #casestudy { background: var(--white); }
+    .cs-card { display: grid; grid-template-columns: 70px 1fr; gap: 2rem; align-items: center; padding: 2rem 2.4rem; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; border-left: 4px solid var(--navy); transition: box-shadow 0.2s, transform 0.2s; cursor: pointer; }
+    .cs-card:hover { box-shadow: 0 8px 30px rgba(15,32,85,0.08); transform: translateX(4px); }
+    .cs-num { font-family: 'Cormorant', serif; font-size: 3.5rem; font-weight: 300; color: var(--border); line-height: 1; }
+    .cs-info h3 { font-family: 'Cormorant', serif; font-size: 1.3rem; font-weight: 600; color: var(--navy); margin-bottom: 0.3rem; }
+    .cs-info p { font-size: 0.82rem; color: var(--body); line-height: 1.65; }
+    .cs-cta { display: inline-block; margin-top: 0.8rem; font-size: 0.75rem; font-weight: 600; color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 1px; }
+
+    #research { background: var(--navy); }
+    #research .sec-chip { background: rgba(201,168,76,0.2); color: var(--gold); }
+    #research .sec-title { color: #fff; }
+    .research-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 2rem 2.4rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; cursor: pointer; transition: background 0.2s; }
+    .research-card:hover { background: rgba(255,255,255,0.09); }
+    .research-icon { font-size: 2.5rem; flex-shrink: 0; }
+    .research-info h3 { font-family: 'Cormorant', serif; font-size: 1.2rem; font-weight: 600; color: #fff; margin-bottom: 0.3rem; }
+    .research-info p { font-size: 0.83rem; color: rgba(255,255,255,0.6); }
+    .research-info .research-cta { font-size: 0.72rem; color: rgba(255,255,255,0.4); font-style: italic; margin-top: 0.4rem; }
+    .research-badge { margin-left: auto; flex-shrink: 0; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(201,168,76,0.2); color: var(--gold); padding: 0.3rem 0.8rem; border-radius: 100px; border: 1px solid rgba(201,168,76,0.3); }
+
+    #skills { background: var(--bg); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
+    .skill-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem; transition: box-shadow 0.2s; }
+    .skill-card:hover { box-shadow: 0 6px 24px rgba(15,32,85,0.07); }
+    .skill-card h4 { font-family: 'Cormorant', serif; font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 2px solid var(--gold-light); }
+    .skill-card ul { list-style: none; }
+    .skill-card li { font-size: 0.82rem; color: var(--body); padding: 0.3rem 0; display: flex; align-items: center; gap: 0.6rem; border-bottom: 1px solid var(--bg); }
+    .skill-card li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+    #contact { background: var(--white); }
+    .contact-wrap { max-width: 560px; margin: 0 auto; text-align: center; }
+    .contact-wrap .sec-title { margin-top: 0.8rem; }
+    .contact-wrap p { font-size: 0.88rem; color: var(--body); margin: 1rem 0 2.5rem; line-height: 1.8; }
+    .contact-btns { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .contact-details { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .contact-details a { font-size: 0.8rem; color: var(--navy); text-decoration: none; }
+    .contact-details span { font-size: 0.8rem; color: var(--muted); }
+
+    footer { background: var(--navy); padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    footer span { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+    .f-name { font-family: 'Cormorant', serif; font-size: 1rem; font-weight: 600; color: var(--gold); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 3rem; padding-top: 7rem; }
+      .hero-right { grid-template-columns: repeat(4, 1fr); }
+      .story-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links a:not(.nav-cta):not(.nav-resume) { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+      .hero-right { grid-template-columns: 1fr 1fr; }
+      .cs-card { grid-template-columns: 1fr; }
+      .cs-num { display: none; }
+      .modal { padding: 2rem 1.4rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">TD<span>.</span></div>
+  <div class="nav-links">
+    <a href="#story">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="TARINI_DAS_CV.pdf" download class="nav-resume">Resume ↓</a>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="hero-chip">Strategic HR Business Partner &amp; People Analytics Professional</div>
+    <h1 class="hero-name">Tarini<em>Das.</em></h1>
+    <p class="hero-tagline">"Built to decode what organisations can't yet see in their people."</p>
+    <div class="hero-tags">
+      <span class="hero-tag">People Analytics</span>
+      <span class="hero-tag">HR Strategy</span>
+      <span class="hero-tag">Workforce Intelligence</span>
+    </div>
+    <p class="hero-bio">Strategic HR Manager with expertise spanning workforce intelligence, organizational effectiveness, talent strategy, and HR governance — across 4 institutions and 130+ employees. I translate workforce challenges into data-driven people strategies that influence executive-level decisions.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-navy">View My Work</a>
+      <a href="#contact" class="btn btn-outline">Let's Talk</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-tile dark">
+      <div class="tile-num">4</div>
+      <div class="tile-label">Power BI dashboards — adopted into weekly senior leadership review</div>
+    </div>
+    <div class="hero-tile">
+      <div class="tile-num">4.3<span style="font-size:1.1rem">/5</span></div>
+      <div class="tile-label">Training effectiveness score across L&D programs</div>
+    </div>
+    <div class="hero-tile gold-tile">
+      <div class="tile-num">130+</div>
+      <div class="tile-label">Employees managed · 1000+ impacted</div>
+    </div>
+    <div class="hero-tile">
+      <div class="tile-num">MBA</div>
+      <div class="tile-label">NMIMS Mumbai — Tier 1</div>
+    </div>
+  </div>
+</section>
+
+<section id="achievements">
+  <div class="sec-header">
+    <div class="sec-chip">By The Numbers</div>
+    <div class="sec-title" style="color:#fff;">Impact That's Measurable</div>
+    <div class="sec-sub" style="color:rgba(255,255,255,0.5);">Numbers tell the story no job title can.</div>
+  </div>
+  <div class="ach-grid">
+    <div class="ach-tile gold-ach">
+      <div class="ach-num">4</div>
+      <div class="ach-line">Integrated Power BI dashboards built from scratch — adopted into weekly senior leadership review, tracking 7 KPIs</div>
+    </div>
+    <div class="ach-tile">
+      <div class="ach-num">4.3/5</div>
+      <div class="ach-line">Post-training effectiveness score across institution-wide L&D programs for 130+ employees</div>
+    </div>
+    <div class="ach-tile gold-ach">
+      <div class="ach-num">700+</div>
+      <div class="ach-line">Candidate MIS pipeline built end-to-end, improving sourcing efficiency and closing 2 mid-experience roles</div>
+    </div>
+    <div class="ach-tile">
+      <div class="ach-num">B.Arch + MBA</div>
+      <div class="ach-line">Dual degree — architecture systems thinking applied to HR strategy and org design</div>
+    </div>
+  </div>
+</section>
+
+<section id="story">
+  <div class="sec-chip">My Story</div>
+  <h2 class="story-title-large">Not a straight line.<br>A deliberate one.</h2>
+  <p class="story-caption">From blueprints to boardrooms — every detour was actually a shortcut.</p>
+  <div class="story-grid">
+    <div class="story-text">
+      <p>I started as someone who wanted to <strong>build things</strong> — spaces, structures, systems. Architecture was not just a degree; it was a way of thinking. I learned to read the relationship between form and function, between a blueprint and the humans who would eventually live inside it.</p>
+      <p>During an internship, I discovered something unexpected: <strong>people are the most complex structure of all.</strong> No blueprint. No load-bearing logic. And yet organisations depend on getting that architecture right every single day. I changed paths — and I have never looked back.</p>
+      <p>What most people called a detour, I call my <strong>sharpest edge</strong>. Every domain I have crossed — architecture, recruitment, L&D, compliance, analytics — added a layer that a straight HR career path simply could not have given me.</p>
+      <p>I walked into an HR function that ran on instinct and spreadsheets. I built dashboards, redesigned frameworks, and introduced data where decisions were previously made by gut. I became <strong>the analytics person in a non-analytics environment</strong> — and I realised that is exactly the kind of person most organisations desperately need.</p>
+      <p>Now I am building toward something bigger: <strong>where workforce strategy meets data intelligence</strong> — and where HR finally gets to sit at the table it has always deserved.</p>
+    </div>
+    <div class="story-right">
+      <div class="usp-tile">
+        <h4>⚡ Analytically Dangerous</h4>
+        <p>HR instinct + data capability. I know what the numbers mean in the room — not just on the dashboard.</p>
+      </div>
+      <div class="usp-tile navy-tile">
+        <h4>🏗️ Systems Thinker</h4>
+        <p>Architecture brain applied to org design — structures, dependencies, and the space between people and process.</p>
+      </div>
+      <div class="personality-row">
+        <div class="pers-tile">
+          <div class="pers-emoji">🏗️</div>
+          <p>Resilient by design — built to adapt, not just survive</p>
+        </div>
+        <div class="pers-tile">
+          <div class="pers-emoji">📐</div>
+          <p>The architect in me can build anything — and everything</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="sec-header">
+    <div class="sec-chip">Work Experience</div>
+    <div class="sec-title">Where I've Worked.<br>What I've Built.</div>
+  </div>
+  <div class="exp-list">
+    <div class="exp-card" id="exp1">
+      <div class="exp-header" onclick="toggleExp('exp1')">
+        <div>
+          <div class="exp-role">HR Manager</div>
+          <div class="exp-meta">Educational Institution · Mumbai · Sole HRBP across 4 Colleges</div>
+        </div>
+        <div class="exp-right">
+          <span class="exp-period">Jul 2025 – Present</span>
+          <span class="exp-toggle">+</span>
+        </div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-type">Strategic Workforce Planning · People Analytics · L&amp;D · Compliance · 130+ Employees</div>
+        <ul class="exp-bullets">
+          <li>Architected 4 integrated Power BI dashboards for 10+ senior leaders tracking 7 KPIs — headcount, attrition, productivity, DEIB, and engagement. Adopted into weekly leadership review.</li>
+          <li>Conducted institution-wide TNA for 130+ employees — competency mapping, skill gap analysis, and a role-specific L&amp;D calendar achieving <strong>4.3/5</strong> post-training effectiveness.</li>
+          <li>Restructured criteria-based promotion evaluation framework — standardising 100% manual assessment across 4–6 cycles, eliminating subjective bias and reducing grievances.</li>
+          <li>Spearheaded the organisation's first POSH compliance program — 16 sessions, end-to-end curriculum, targeting <strong>85% coverage</strong> across 1100+ employees from zero baseline.</li>
+          <li>Redrafted faculty handbook against statutory regulatory benchmarks — reinforcing compliance clarity for 700+ faculty across pan-India campuses.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-card" id="exp2">
+      <div class="exp-header" onclick="toggleExp('exp2')">
+        <div>
+          <div class="exp-role">HR Summer Internship</div>
+          <div class="exp-meta">HR Consulting Firm · Mumbai</div>
+        </div>
+        <div class="exp-right">
+          <span class="exp-period">Apr – May 2024</span>
+          <span class="exp-toggle">+</span>
+        </div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-type">Talent Acquisition · L&amp;D · CSR</div>
+        <ul class="exp-bullets">
+          <li>Managed end-to-end recruitment for 20+ roles — building a <strong>700+ candidate MIS pipeline</strong> and closing 2 mid-experience positions.</li>
+          <li>Designed and delivered a Gen AI capability-building session; executed CSR initiatives benefiting <strong>120+ underserved women</strong> across suburban Mumbai.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="sec-header">
+    <div class="sec-chip">Portfolio</div>
+    <div class="sec-title">Projects Built.<br>Problems Solved.</div>
+    <div class="sec-sub">Click any project to see the full breakdown — problem, approach, outcome, and reflections.</div>
+  </div>
+  <div class="proj-grid">
+    <div class="proj-card" onclick="openModal('modal-p1')">
+      <span class="proj-badge">Live</span>
+      <div class="proj-icon">📊</div>
+      <div class="proj-type">Diagnostic Analytics</div>
+      <h3>HR Workforce Analytics Dashboard</h3>
+      <p>Executive-grade Power BI dashboard surfacing workforce risk, attrition drivers, and people intelligence across 1,470 employee records.</p>
+      <div class="proj-tags"><span class="ptag">Power BI</span><span class="ptag">DAX</span><span class="ptag">IBM Dataset</span><span class="ptag">Executive KPIs</span></div>
+      <button class="proj-btn">View Full Project →</button>
+    </div>
+    <div class="proj-card" onclick="openModal('modal-p2')">
+      <span class="proj-badge">Live</span>
+      <div class="proj-icon">💰</div>
+      <div class="proj-type">Cost Intelligence</div>
+      <h3>Workforce Cost Intelligence Dashboard</h3>
+      <p>CFO-level analytics connecting workforce data to financial outcomes — cost per hire, replacement cost, and human capital ROI.</p>
+      <div class="proj-tags"><span class="ptag">Power BI</span><span class="ptag">DAX</span><span class="ptag">Cost Analytics</span><span class="ptag">CFO View</span></div>
+      <button class="proj-btn">View Full Project →</button>
+    </div>
+    <div class="proj-card" onclick="openModal('modal-p3')">
+      <span class="proj-badge">Live</span>
+      <div class="proj-icon">🏗️</div>
+      <div class="proj-type">HR Strategy · Org Design</div>
+      <h3>HR Transformation Roadmap — NovaPay</h3>
+      <p>Consulting-grade HR strategy for a fintech scaling 300 to 800 employees — org design, HRBP model, tech stack, and 90-day roadmap.</p>
+      <div class="proj-tags"><span class="ptag">Ulrich Model</span><span class="ptag">Org Design</span><span class="ptag">HRBP</span><span class="ptag">HR Tech</span></div>
+      <button class="proj-btn">View Full Project →</button>
+    </div>
+    <div class="proj-card" onclick="openModal('modal-p4')">
+      <div class="proj-icon">📋</div>
+      <div class="proj-type">Free Resource · Template</div>
+      <h3>HR Dashboard KPI Library</h3>
+      <p>50 People Analytics KPIs with definitions, formulas, and benchmarks — a reference guide for building your first analytics function.</p>
+      <div class="proj-tags"><span class="ptag">Excel</span><span class="ptag">PDF</span><span class="ptag">50 KPIs</span><span class="ptag">Free</span></div>
+      <button class="proj-btn">View Details →</button>
+    </div>
+  </div>
+</section>
+
+<section id="casestudy">
+  <div class="sec-header">
+    <div class="sec-chip">Real Work · Anonymised</div>
+    <div class="sec-title">Case Study</div>
+    <div class="sec-sub">Click to read the full breakdown — from problem to outcome.</div>
+  </div>
+  <div class="cs-card" onclick="openModal('modal-cs1')">
+    <div class="cs-num">01</div>
+    <div class="cs-info">
+      <h3>Building HR Analytics Infrastructure from Scratch</h3>
+      <p>How I designed and implemented a people analytics function within an institution with zero prior data infrastructure.</p>
+      <span class="cs-cta">Read Full Case Study →</span>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="sec-header">
+    <div class="sec-chip">Academic Work</div>
+    <div class="sec-title" style="color:#fff;">Research</div>
+  </div>
+  <div class="research-card" onclick="openModal('modal-research')">
+    <div class="research-icon">🔬</div>
+    <div class="research-info">
+      <h3>Emotional Intelligence as a Catalyst in Skill Development</h3>
+      <p>Investigating EI's role in professional skill development among working professionals in suburban Mumbai.</p>
+      <p class="research-cta">Click to read more →</p>
+    </div>
+    <div class="research-badge">2026 · Ongoing</div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="sec-header">
+    <div class="sec-chip">Capabilities</div>
+    <div class="sec-title">Tools &amp; Expertise</div>
+    <div class="sec-sub">Built through real projects — not just coursework.</div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <h4>People Analytics &amp; Data</h4>
+      <ul>
+        <li>Power BI — Intermediate to Advanced</li>
+        <li>Python — pandas, scikit-learn</li>
+        <li>SQL — Reading Level</li>
+        <li>Excel — Advanced</li>
+        <li>DAX · Power Query</li>
+        <li>Data Visualisation</li>
+        <li>Predictive Modelling</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <h4>HR Technology</h4>
+      <ul>
+        <li>Oracle HRMS / ERP</li>
+        <li>Workday HCM</li>
+        <li>SAP SuccessFactors</li>
+        <li>Greenhouse ATS</li>
+        <li>LMS Platforms</li>
+        <li>MS 365 Suite</li>
+        <li>AI Automation Tools</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <h4>HR Domains &amp; Frameworks</h4>
+      <ul>
+        <li>HR Business Partnering</li>
+        <li>Talent Management &amp; Acquisition</li>
+        <li>Learning &amp; Development (ADDIE)</li>
+        <li>Competency Mapping &amp; TNA</li>
+        <li>Org Design · Workforce Planning</li>
+        <li>POSH Compliance &amp; Governance</li>
+        <li>Performance Management</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="sec-chip">Let's Connect</div>
+    <div class="sec-title">Open to the Right<br>Opportunity.</div>
+    <p>Seeking People Analytics and HRBP roles — global remote or Mumbai-based.<br>MBA from NMIMS · Available August 2026.</p>
+    <div class="contact-btns">
+      <a href="https://www.linkedin.com/in/tarini-das-3831161b8" target="_blank" class="btn btn-navy">LinkedIn</a>
+      <a href="mailto:tarinidas26a@gmail.com" class="btn btn-gold">Email Me</a>
+      <a href="TARINI_DAS_CV.pdf" download class="btn btn-outline">Download Resume</a>
+    </div>
+    <div class="contact-details">
+      <a href="mailto:tarinidas26a@gmail.com">tarinidas26a@gmail.com</a>
+      <a href="tel:+918109620370">+91 81096 20370</a>
+      <span>Mumbai, India</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="f-name">Tarini Das</span>
+  <span>People Analytics · HR Strategy · Mumbai 2026</span>
+  <span>Built with intent.</span>
+</footer>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-p1" onclick="closeOnOverlay(event,'modal-p1')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-p1')">x</button>
+    <div class="modal-type">Diagnostic Analytics · Power BI · IBM Dataset</div>
+    <div class="modal-title">HR Workforce Analytics Dashboard</div>
+    <div class="modal-section"><div class="modal-section-label">Problem</div><p>Most organisations know how many people they have. Very few know what those people are actually costing them — and why. The IBM HR dataset had 1,470 employee records but no narrative. The question I set was simple: if a CHRO walked in tomorrow and asked "where is our biggest people risk right now?" — could the data answer that?</p></div>
+    <div class="modal-section"><div class="modal-section-label">Approach</div><p>I built a 6-page Power BI dashboard structured around five executive questions — not just charts. Every page had one anchor insight that a non-HR leader could act on. Custom DAX measures for attrition rate, replacement cost (SHRM 1.5x methodology), flight risk score, burnout risk flag, and a composite Workforce Risk Index. Every KPI benchmarked against industry standard. The Risk Radar page combined overtime + no promotion in 3 years + low satisfaction into a single flight risk flag.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Outcome</div><p>Attrition rate of 16.1% against a 13% benchmark. Estimated $9.25M replacement cost. Employees on overtime 3x more likely to leave. Women dropped below 30% at senior levels alongside an 8.2% unexplained gender pay gap. 36 employees flagged as active flight risks. These are findings a CHRO would walk into a board meeting with.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Tech Stack</div><div class="modal-stack"><span class="modal-tag">Power BI Desktop</span><span class="modal-tag">DAX</span><span class="modal-tag">IBM HR Dataset</span><span class="modal-tag">SHRM Methodology</span><span class="modal-tag">Executive Layout</span></div></div>
+    <div class="modal-section"><div class="modal-section-label">Reflections</div><div class="modal-reflection">"This was the project where I stopped thinking like an HR person filling in a dashboard and started thinking like a consultant building a business case. The biggest learning: data without a benchmark is just noise — every number needs a reference point to become a finding."</div></div>
+    <div class="modal-actions">
+      <a href="https://www.slideshare.net/slideshow/workforce-intelligence-dashboard-people-analytics-portfolio-project/287495933" target="_blank" class="modal-link primary">View on SlideShare →</a>
+      <a href="https://github.com/tarini-das/portfolio" target="_blank" class="modal-link secondary">GitHub →</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-p2" onclick="closeOnOverlay(event,'modal-p2')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-p2')">x</button>
+    <div class="modal-type">Cost Intelligence · Power BI · Nexova Technologies</div>
+    <div class="modal-title">Workforce Cost Intelligence Dashboard</div>
+    <div class="modal-section"><div class="modal-section-label">Problem</div><p>Nexova Technologies had workforce data but no visibility into whether they were getting returns on their people investment. Headcount was tracked. Salaries were paid. But no one had connected absenteeism to disengagement, or overtime to productivity drain, or attrition cost to department-level budget impact. The CFO question — "what is our workforce actually costing us, beyond payroll?" — had no answer.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Approach</div><p>A 4-page Power BI dashboard built around workforce cost intelligence — not basic HR metrics. Page 1 mapped total workforce cost by department. Page 2 used absenteeism and late-day patterns as leading indicators of disengagement. Page 3 created a human capital ROI metric — salary per performance point. Page 4 built a full attrition replacement cost model by department using SHRM's 1.5x methodology.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Outcome</div><p>Overall attrition at 33.44% — more than double the 15% benchmark. Total estimated replacement cost: Rs. 10.25 million. Production accounted for 80% of all exits. Sales showed highest absenteeism and lowest satisfaction simultaneously — a compounding risk signal. Each finding framed as a CFO-level business conversation, not an HR report.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Tech Stack</div><div class="modal-stack"><span class="modal-tag">Power BI Desktop</span><span class="modal-tag">DAX</span><span class="modal-tag">Kaggle HR Dataset</span><span class="modal-tag">SHRM Methodology</span><span class="modal-tag">Executive Layout</span></div></div>
+    <div class="modal-section"><div class="modal-section-label">Reflections</div><div class="modal-reflection">"Saying 'attrition is high' is an HR observation. Saying 'your attrition is costing Rs. 10.25M in replacement cost, concentrated in one department' is a CFO conversation. That reframe — from HR metric to business cost — is what makes People Analytics credible in the boardroom."</div></div>
+    <div class="modal-actions">
+      <a href="https://www.slideshare.net/slideshow/workforce-cost-intelligence-dashboard-people-analytics-portfolio-tarini-das/287873319" target="_blank" class="modal-link primary">View on SlideShare →</a>
+      <a href="https://github.com/tarini-das/portfolio" target="_blank" class="modal-link secondary">GitHub →</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-p3" onclick="closeOnOverlay(event,'modal-p3')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-p3')">x</button>
+    <div class="modal-type">HR Strategy · Org Design · Ulrich Framework</div>
+    <div class="modal-title">HR Transformation Roadmap — NovaPay</div>
+    <div class="modal-section"><div class="modal-section-label">Problem</div><p>NovaPay is a Series C fintech scaling from 300 to 800 employees in 18 months. At that growth rate, the HR function they have will break. No HRBP structure. No scalable hiring infrastructure. No HRIS capable of handling 2.6x headcount. The business problem was not "hire more people" — it was: how do you build the HR infrastructure before the growth exposes the gaps?</p></div>
+    <div class="modal-section"><div class="modal-section-label">Approach</div><p>Started with a current-state diagnosis — mapping what a 300-person fintech HR function looks like and where pressure points emerge at scale. Designed the future-state model using the Ulrich 3-Pillar framework (COE, HRBP, Shared Services) calibrated to 800 headcount. Recommended a specific tech stack — Workday, Greenhouse, Culture Amp, Power BI — justified against growth stage and compliance requirements. The 90-day roadmap broken into four phases: stabilise, structure, scale, sustain.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Outcome</div><p>A 14-slide consulting-grade HR strategy deck that a CHRO or Series C Board could present to investors or use as an internal transformation blueprint. Every recommendation tied to a business outcome. 6 KPIs defined to make the strategy accountable — not aspirational.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Tech Stack</div><div class="modal-stack"><span class="modal-tag">Ulrich HR Model</span><span class="modal-tag">Workday</span><span class="modal-tag">Greenhouse</span><span class="modal-tag">Culture Amp</span><span class="modal-tag">Power BI</span><span class="modal-tag">Consulting Deck Design</span></div></div>
+    <div class="modal-section"><div class="modal-section-label">Reflections</div><div class="modal-reflection">"This project taught me how to think about HR as infrastructure rather than administration. The hardest part was the tech stack recommendation — I had to learn enough about Workday, Greenhouse, and Culture Amp to speak credibly about why each one fits a specific stage of company growth. That research is now something I can defend in any interview."</div></div>
+    <div class="modal-actions">
+      <a href="https://www.slideshare.net/slideshow/scaling-hr-infrastructure-strategy-from-300-to-800-employees/287873382" target="_blank" class="modal-link primary">View on SlideShare →</a>
+      <a href="https://github.com/tarini-das/portfolio" target="_blank" class="modal-link secondary">GitHub →</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-p4" onclick="closeOnOverlay(event,'modal-p4')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-p4')">x</button>
+    <div class="modal-type">Free Resource · Template · Excel + PDF</div>
+    <div class="modal-title">HR Dashboard KPI Library — 50 Metrics</div>
+    <div class="modal-section"><div class="modal-section-label">Purpose</div><p>Most HR teams starting their analytics journey do not know which metrics actually matter — or how to define, calculate, and benchmark them. This library gives any HR professional a ready-to-use reference for building their first analytics function from scratch.</p></div>
+    <div class="modal-section"><div class="modal-section-label">What's Inside</div><p>50 People Analytics KPIs across five domains: Headcount and Workforce Composition, Attrition and Retention, Learning and Development, Compensation and Equity, and DEIB. Each metric includes definition, formula, industry benchmark, and data source guidance.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Tech Stack</div><div class="modal-stack"><span class="modal-tag">Excel</span><span class="modal-tag">PDF Export</span><span class="modal-tag">SHRM Benchmarks</span><span class="modal-tag">People Analytics Framework</span></div></div>
+    <div class="modal-section"><div class="modal-section-label">Reflections</div><div class="modal-reflection">"I built this because I wished it had existed when I started. The 50 metrics are drawn from real dashboards I built — not a theoretical list. Every benchmark has a source."</div></div>
+    <div class="modal-actions"><a href="#" class="modal-link primary">Coming Soon — Free Download</a></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-cs1" onclick="closeOnOverlay(event,'modal-cs1')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-cs1')">x</button>
+    <div class="modal-type">Case Study · Real Work · Anonymised</div>
+    <div class="modal-title">Building HR Analytics Infrastructure from Scratch</div>
+    <div class="modal-section"><div class="modal-section-label">Situation</div><p>I joined an educational institution with 130+ employees and 4 colleges as the sole HR Manager and HRBP. The HR function had no data infrastructure — no dashboards, no structured reporting, no way for senior leadership to make data-informed people decisions. All workforce information lived in disconnected spreadsheets with no common logic.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Approach</div><p>I began with a data audit — mapping what data existed, where it lived, and what leadership actually needed to know. I identified 7 critical KPIs: headcount, attrition, productivity indicators, DEIB metrics, L&amp;D effectiveness, policy compliance, and engagement proxies. I then built 4 integrated Power BI dashboards — one per strategic question — consolidating all data into a single reporting layer and creating a consistent data language across HR and leadership.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Outcome</div><p>All 4 dashboards were adopted into weekly senior leadership review within the first quarter. Workforce data was being used to drive conversations — not just track headcount. Leadership could see attrition signals, training effectiveness, and workforce composition at a glance. This became the foundation for every subsequent strategic HR conversation at the institution.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Reflections</div><div class="modal-reflection">"The hardest part was not the technical build — it was getting people to trust the data. HR analytics only works when the business sees it as their tool, not HR's report. That shift in perception was the real deliverable."</div></div>
+    <div class="modal-actions"><a href="#" class="modal-link primary">Full Article Coming Soon on Medium</a></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-research" onclick="closeOnOverlay(event,'modal-research')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-research')">x</button>
+    <div class="modal-type">Research Project · 2026 · Ongoing</div>
+    <div class="modal-title">Emotional Intelligence as a Catalyst in Skill Development</div>
+    <div class="modal-section"><div class="modal-section-label">Purpose</div><p>This research investigates the role of emotional intelligence in accelerating professional skill development among working individuals in suburban Mumbai. The premise: EI is not a soft skill — it is a cognitive multiplier that shapes how quickly and deeply people acquire new capabilities in the workplace.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Approach</div><p>Primary research using structured surveys and interviews across working professionals in suburban Mumbai. Analysis correlates EI competency scores with self-reported and manager-reported skill development velocity across different domains and industries.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Expected Outcome</div><p>Findings will inform how L&amp;D programs can be redesigned to develop emotional intelligence as a prerequisite for skill acceleration — not as a separate module, but as the foundation layer of any capability-building initiative.</p></div>
+    <div class="modal-section"><div class="modal-section-label">Status</div><div class="modal-reflection">"This research sits at the intersection of two things I care deeply about — human potential and data-driven L&D design. Results expected mid-2026."</div></div>
+  </div>
+</div>
+
+<script>
+  function toggleExp(id) { document.getElementById(id).classList.toggle('open'); }
+  function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
+  function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = ''; }
+  function closeOnOverlay(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { document.querySelectorAll('.modal-overlay.active').forEach(function(m) { m.classList.remove('active'); document.body.style.overflow = ''; }); }
+  });
+</script>
+</body>
+</html>
